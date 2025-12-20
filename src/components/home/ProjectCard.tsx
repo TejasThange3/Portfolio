@@ -17,53 +17,58 @@ const ProjectCard = ({ title, description, slug, tech, imageUrl }: ProjectCardPr
   return (
     <Link href={`/projects/${slug}`} className="block h-full">
       <motion.div
-        whileHover={{ scale: 1.02, y: -4 }}
-        transition={{ duration: 0.2, ease: "easeOut" }}
-        className="group relative h-full bg-white dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 overflow-hidden shadow-sm hover:shadow-xl transition-all cursor-pointer"
+        whileHover={{ scale: 1.01 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+        className="group relative h-full rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow cursor-pointer"
       >
-        {/* Thumbnail Image */}
-        <div className="relative h-48 w-full overflow-hidden bg-neutral-100 dark:bg-neutral-800">
+        {/* Full Background Image */}
+        <div className="absolute inset-0">
           <Image
             src={imageUrl}
             alt={title}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            className="object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            priority
           />
-          {/* Dark overlay on hover */}
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
-          
-          {/* Tech Stack Badges - Overlayed on image */}
-          <div className="absolute bottom-3 left-3 flex gap-2 flex-wrap max-w-[calc(100%-24px)]">
+        </div>
+
+        {/* Dark Gradient Overlay (Always visible for text readability) */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/20 group-hover:from-black/95 group-hover:via-black/50 transition-colors duration-300" />
+
+        {/* Arrow Icon - Top Right */}
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+          <div className="p-2.5 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+            <ArrowUpRight className="w-5 h-5 text-white" />
+          </div>
+        </div>
+
+        {/* Content - Bottom Left (Overlaid on image) */}
+        <div className="absolute bottom-0 left-0 right-0 p-6 z-10">
+          {/* Tech Stack Badges */}
+          <div className="flex gap-2 flex-wrap mb-3">
             {tech.slice(0, 3).map((t) => (
               <span
                 key={t}
-                className="px-2.5 py-1 text-xs font-medium rounded-full bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 shadow-sm"
+                className="px-3 py-1 text-xs font-semibold rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white"
               >
                 {t}
               </span>
             ))}
             {tech.length > 3 && (
-              <span className="px-2.5 py-1 text-xs font-medium rounded-full bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm border border-neutral-200 dark:border-neutral-700 text-neutral-700 dark:text-neutral-300 shadow-sm">
+              <span className="px-3 py-1 text-xs font-semibold rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white">
                 +{tech.length - 3}
               </span>
             )}
           </div>
-          
-          {/* Arrow Icon */}
-          <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-200">
-            <div className="p-2 bg-white/90 dark:bg-neutral-900/90 backdrop-blur-sm rounded-full shadow-lg">
-              <ArrowUpRight className="w-4 h-4 text-neutral-900 dark:text-white" />
-            </div>
-          </div>
-        </div>
 
-        {/* Content Section */}
-        <div className="p-5">
-          <h3 className="text-lg font-bold text-neutral-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
+          {/* Title */}
+          <h3 className="text-2xl font-bold text-white mb-2 drop-shadow-lg">
             {title}
           </h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400 line-clamp-2 leading-relaxed">
+
+          {/* Description */}
+          <p className="text-sm text-white/90 line-clamp-2 leading-relaxed drop-shadow-md">
             {description}
           </p>
         </div>
