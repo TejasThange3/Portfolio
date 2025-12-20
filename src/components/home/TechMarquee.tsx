@@ -8,19 +8,22 @@ interface TechMarqueeProps {
 }
 
 const TechMarquee = ({ items, className }: TechMarqueeProps) => {
+  // Multiply skills array for seamless infinite scroll
+  const multipliedItems = [...items, ...items, ...items, ...items];
+  
   return (
     <div
       className={cn(
         "w-full overflow-hidden bg-neutral-900 py-4 flex items-center relative",
         className
       )}
+      style={{
+        maskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+        WebkitMaskImage: 'linear-gradient(to right, transparent, black 10%, black 90%, transparent)',
+      }}
     >
-      {/* Gradient masks for smooth fade effect */}
-      <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-neutral-900 to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-neutral-900 to-transparent z-10 pointer-events-none" />
-      
       <div className="flex animate-marquee whitespace-nowrap">
-        {items.map((item, index) => (
+        {multipliedItems.map((item, index) => (
           <span
             key={index}
             className="mx-6 text-lg font-semibold text-neutral-300 uppercase tracking-wider"
@@ -28,8 +31,8 @@ const TechMarquee = ({ items, className }: TechMarqueeProps) => {
             {item}
           </span>
         ))}
-        {/* Duplicate for seamless loop */}
-        {items.map((item, index) => (
+        {/* Duplicate again for seamless loop */}
+        {multipliedItems.map((item, index) => (
           <span
             key={`dup-${index}`}
             className="mx-6 text-lg font-semibold text-neutral-300 uppercase tracking-wider"

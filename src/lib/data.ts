@@ -5,6 +5,11 @@ export const DATA = {
     location: "San Francisco, CA",
     bio: "Building digital products with a focus on user experience and performance.",
     email: "hello@example.com",
+    social: {
+      github: "https://github.com/johndoe",
+      linkedin: "https://linkedin.com/in/johndoe",
+      twitter: "https://twitter.com/johndoe",
+    },
   },
   skills: [
     "React",
@@ -22,6 +27,7 @@ export const DATA = {
       title: "AI-Powered Analytics Dashboard",
       tagline: "Real-time insights for data-driven decisions",
       description: "A comprehensive analytics platform that transforms raw data into actionable insights using machine learning.",
+      imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
       tech: ["React", "Node.js", "Python", "TensorFlow"],
       link: "https://example.com",
       repo: "https://github.com/example/project-one",
@@ -58,6 +64,7 @@ export const DATA = {
       title: "E-Commerce Platform",
       tagline: "Seamless shopping experience with instant checkout",
       description: "A modern e-commerce platform with advanced features like instant checkout, inventory management, and personalized recommendations.",
+      imageUrl: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80",
       tech: ["Next.js", "Stripe", "PostgreSQL", "Redis"],
       link: "https://example.com",
       repo: "https://github.com/example/project-two",

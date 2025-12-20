@@ -60,13 +60,14 @@ const BentoGrid = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-            className="col-span-1 md:col-span-2 row-span-1"
+            className="col-span-1 md:col-span-2 row-span-2"
           >
             <ProjectCard
               title={project.title}
               description={project.description}
               slug={project.slug}
               tech={project.tech}
+              imageUrl={project.imageUrl}
             />
           </motion.div>
         ))}
