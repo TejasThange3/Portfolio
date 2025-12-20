@@ -14,7 +14,7 @@ const TechMarquee = ({ items, className }: TechMarqueeProps) => {
   return (
     <div
       className={cn(
-        "w-full overflow-hidden bg-neutral-900 py-4 flex items-center relative",
+        "w-full overflow-hidden bg-neutral-900/50 backdrop-blur-md border-y border-neutral-800 py-4 flex items-center relative",
         className
       )}
       style={{
@@ -26,7 +26,7 @@ const TechMarquee = ({ items, className }: TechMarqueeProps) => {
         {multipliedItems.map((item, index) => (
           <span
             key={index}
-            className="mx-6 text-lg font-semibold text-neutral-300 uppercase tracking-wider"
+            className="mx-6 text-base font-semibold text-neutral-300 uppercase tracking-wider"
           >
             {item}
           </span>
@@ -35,7 +35,7 @@ const TechMarquee = ({ items, className }: TechMarqueeProps) => {
         {multipliedItems.map((item, index) => (
           <span
             key={`dup-${index}`}
-            className="mx-6 text-lg font-semibold text-neutral-300 uppercase tracking-wider"
+            className="mx-6 text-base font-semibold text-neutral-300 uppercase tracking-wider"
           >
             {item}
           </span>
