@@ -15,11 +15,14 @@ const ProjectCard = ({ title, description, slug, tech }: ProjectCardProps) => {
   return (
     <Link href={`/projects/${slug}`} className="block h-full">
       <motion.div
-        whileHover={{ scale: 0.98 }}
-        className="group relative h-full p-6 bg-neutral-100 dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 overflow-hidden flex flex-col justify-between"
+        whileHover={{ scale: 1.02, y: -4 }}
+        transition={{ duration: 0.2, ease: "easeOut" }}
+        className="group relative h-full p-6 bg-neutral-100 dark:bg-neutral-900 rounded-3xl border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-lg transition-shadow cursor-pointer"
       >
-        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          <ArrowUpRight className="w-6 h-6 text-neutral-500" />
+        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-1 group-hover:translate-x-0 translate-y-1 group-hover:translate-y-0">
+          <div className="p-2 bg-white dark:bg-neutral-800 rounded-full shadow-md">
+            <ArrowUpRight className="w-4 h-4 text-neutral-900 dark:text-white" />
+          </div>
         </div>
         
         <div className="mt-auto">
@@ -33,7 +36,7 @@ const ProjectCard = ({ title, description, slug, tech }: ProjectCardProps) => {
               </span>
             ))}
           </div>
-          <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-1">
+          <h3 className="text-xl font-bold text-neutral-900 dark:text-white mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
             {title}
           </h3>
           <p className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-2">
