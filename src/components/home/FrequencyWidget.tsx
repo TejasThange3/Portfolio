@@ -16,13 +16,13 @@ const frequencies: FrequencyOption[] = [
     hz: 432,
     label: "432 Hz",
     description: "Clarity & Peace",
-    color: "from-blue-500 to-cyan-500",
+    color: "from-green-500 to-emerald-500",
   },
   {
     hz: 852,
     label: "852 Hz",
     description: "Intuition & Balance",
-    color: "from-purple-500 to-pink-500",
+    color: "from-purple-500 to-violet-500",
   },
 ];
 
@@ -113,12 +113,12 @@ const FrequencyWidget = () => {
 
   return (
     <div 
-      className={`relative h-full p-6 bg-neutral-900/50 backdrop-blur-md rounded-3xl border border-white/5 overflow-hidden transition-all duration-500 ${
+      className={`relative h-full p-6 bg-neutral-900/40 backdrop-blur-xl rounded-3xl overflow-hidden transition-all duration-500 ${
         activeFreq === 432 
-          ? 'shadow-[0_0_30px_-5px_rgba(34,197,94,0.3)]' 
+          ? 'shadow-[0_0_60px_-15px_rgba(34,197,94,0.4)] border border-green-500/30' 
           : activeFreq === 852 
-          ? 'shadow-[0_0_30px_-5px_rgba(168,85,247,0.3)]' 
-          : 'shadow-xl'
+          ? 'shadow-[0_0_60px_-15px_rgba(168,85,247,0.4)] border border-purple-500/30' 
+          : 'shadow-xl border border-white/10'
       }`}
     >
       {/* Background Animation */}
@@ -166,10 +166,12 @@ const FrequencyWidget = () => {
               onClick={() => toggleFrequency(freq.hz)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`relative p-4 rounded-2xl border transition-all ${
+              className={`relative p-4 rounded-2xl transition-all duration-300 ${
                 activeFreq === freq.hz
-                  ? "border-white/20 bg-white/10 backdrop-blur-sm shadow-inner"
-                  : "border-white/5 bg-neutral-800/50 hover:bg-neutral-800/70 hover:border-white/10"
+                  ? freq.hz === 432 
+                    ? "border-2 border-green-500/50 bg-green-500/10 backdrop-blur-sm shadow-[inset_0_0_20px_rgba(34,197,94,0.1)]"
+                    : "border-2 border-purple-500/50 bg-purple-500/10 backdrop-blur-sm shadow-[inset_0_0_20px_rgba(168,85,247,0.1)]"
+                  : "border border-white/10 bg-transparent hover:bg-white/5 hover:border-white/20"
               }`}
             >
               <div className="flex items-center justify-between">

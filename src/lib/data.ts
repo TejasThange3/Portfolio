@@ -4,11 +4,12 @@ export const DATA = {
     title: "AI & ML Engineer",
     location: "Pune, India",
     bio: "Building intelligent systems with machine learning and modern web technologies. Passionate about creating scalable AI solutions.",
-    email: "tejas.thange@example.com",
+    email: "tejasthange3@gmail.com",
+    avatarUrl: "https://avatars.githubusercontent.com/u/TejasThange3",
     social: {
-      github: "https://github.com/tejasthange",
-      linkedin: "https://linkedin.com/in/tejasthange",
-      twitter: "https://twitter.com/tejasthange",
+      github: "https://github.com/TejasThange3",
+      linkedin: "https://www.linkedin.com/in/tejas03",
+      twitter: "https://x.com/Kanha_109",
     },
   },
   skills: [
