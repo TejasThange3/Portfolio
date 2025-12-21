@@ -112,14 +112,22 @@ const FrequencyWidget = () => {
   }, []);
 
   return (
-    <div className="relative h-full p-6 bg-neutral-900 rounded-3xl border border-neutral-800 shadow-xl overflow-hidden">
+    <div 
+      className={`relative h-full p-6 bg-neutral-900/50 backdrop-blur-md rounded-3xl border border-white/5 overflow-hidden transition-all duration-500 ${
+        activeFreq === 432 
+          ? 'shadow-[0_0_30px_-5px_rgba(34,197,94,0.3)]' 
+          : activeFreq === 852 
+          ? 'shadow-[0_0_30px_-5px_rgba(168,85,247,0.3)]' 
+          : 'shadow-xl'
+      }`}
+    >
       {/* Background Animation */}
       {activeFreq && (
         <motion.div
-          className="absolute inset-0 opacity-10"
+          className="absolute inset-0 opacity-20"
           animate={{
             scale: [1, 1.2, 1],
-            opacity: [0.1, 0.2, 0.1],
+            opacity: [0.15, 0.25, 0.15],
           }}
           transition={{
             duration: 2,
@@ -158,10 +166,10 @@ const FrequencyWidget = () => {
               onClick={() => toggleFrequency(freq.hz)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className={`relative p-4 rounded-2xl border-2 transition-all ${
+              className={`relative p-4 rounded-2xl border transition-all ${
                 activeFreq === freq.hz
-                  ? "border-white bg-white/10 backdrop-blur-sm"
-                  : "border-neutral-700 bg-neutral-800 hover:border-neutral-600"
+                  ? "border-white/20 bg-white/10 backdrop-blur-sm shadow-inner"
+                  : "border-white/5 bg-neutral-800/50 hover:bg-neutral-800/70 hover:border-white/10"
               }`}
             >
               <div className="flex items-center justify-between">
@@ -178,18 +186,23 @@ const FrequencyWidget = () => {
 
               {/* Waveform Visualization */}
               {activeFreq === freq.hz && (
-                <motion.div className="absolute bottom-2 left-4 right-4 flex items-center gap-1 h-8">
-                  {[...Array(20)].map((_, i) => (
+                <motion.div 
+                  className="absolute bottom-2 left-4 right-4 flex items-center gap-0.5 h-10"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {[...Array(24)].map((_, i) => (
                     <motion.div
                       key={i}
-                      className={`flex-1 bg-gradient-to-t ${freq.color} rounded-full`}
+                      className={`flex-1 bg-gradient-to-t ${freq.color} rounded-full opacity-70`}
                       animate={{
-                        height: ["20%", "80%", "20%"],
+                        height: ["25%", "90%", "25%"],
                       }}
                       transition={{
-                        duration: 1,
+                        duration: 0.8,
                         repeat: Infinity,
-                        delay: i * 0.05,
+                        delay: i * 0.04,
                         ease: "easeInOut",
                       }}
                     />
@@ -201,8 +214,8 @@ const FrequencyWidget = () => {
         </div>
 
         {/* Info Text */}
-        <div className="mt-4 pt-4 border-t border-neutral-800">
-          <p className="text-xs text-neutral-500 text-center">
+        <div className="mt-4 pt-4 border-t border-white/5">
+          <p className="text-xs text-neutral-500 text-center font-mono">
             Click to play • Auto-stops after 10s • Safe volume
           </p>
         </div>
