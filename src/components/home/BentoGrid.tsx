@@ -5,8 +5,7 @@ import { DATA } from "@/lib/data";
 import ProfileCard from "./ProfileCard";
 import TechMarquee from "./TechMarquee";
 import ProjectCard from "./ProjectCard";
-import MapWidget from "./MapWidget";
-import SpotifyWidget from "./SpotifyWidget";
+import FrequencyWidget from "./FrequencyWidget";
 
 const BentoGrid = () => {
   return (
@@ -16,7 +15,7 @@ const BentoGrid = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[180px]">
           
           {/* Profile Card - 2x2 */}
           <motion.div 
@@ -28,32 +27,22 @@ const BentoGrid = () => {
             <ProfileCard />
           </motion.div>
 
-          {/* Map Widget - 1x1 */}
+          {/* Frequency Widget - 2x2 */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="col-span-1 row-span-1"
+            className="col-span-1 md:col-span-2 row-span-2"
           >
-            <MapWidget />
-          </motion.div>
-
-          {/* Spotify Widget - 1x1 */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="col-span-1 row-span-1"
-          >
-            <SpotifyWidget />
+            <FrequencyWidget />
           </motion.div>
 
           {/* Tech Marquee - Full Width */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="col-span-1 md:col-span-2 row-span-1 rounded-3xl overflow-hidden"
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="col-span-1 md:col-span-4 row-span-1 rounded-3xl overflow-hidden"
           >
             <TechMarquee items={DATA.skills} />
           </motion.div>
@@ -64,7 +53,7 @@ const BentoGrid = () => {
               key={project.slug}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
+              transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
               className="col-span-1 md:col-span-2 row-span-2"
             >
               <ProjectCard
@@ -76,16 +65,6 @@ const BentoGrid = () => {
               />
             </motion.div>
           ))}
-
-          {/* Placeholder Card */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            className="col-span-1 md:col-span-2 row-span-1 bg-neutral-900 rounded-3xl border border-neutral-800 p-6 flex items-center justify-center"
-          >
-            <p className="text-neutral-500 text-sm">More projects coming soon...</p>
-          </motion.div>
 
         </div>
       </motion.div>
