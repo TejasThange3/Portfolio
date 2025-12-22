@@ -41,6 +41,26 @@ body::before {
   mix-blend-mode: overlay;
 }
 
+/* Typewriter cursor blink animation */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.animate-blink {
+  animation: blink 0.8s step-end infinite;
+}
+
+/* Twinkle animation for stars */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.animate-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+
 /* Waving hand animation */
 @keyframes wave {
   0%, 100% { transform: rotate(0deg); }
