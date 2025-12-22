@@ -1,44 +1,30 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
 import { useState, useEffect } from "react";
 
 const ThemeToggle = () => {
-  const [isDark, setIsDark] = useState(true);
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    // Check if user has a preference
-    const theme = localStorage.getItem("theme");
-    if (theme === "light") {
-      setIsDark(false);
-      document.documentElement.classList.remove("dark");
-    } else {
-      setIsDark(true);
-      document.documentElement.classList.add("dark");
-    }
   }, []);
-
-  const toggleTheme = () => {
-    if (isDark) {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-      setIsDark(false);
-    } else {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-      setIsDark(true);
-    }
-  };
 
   // Prevent hydration mismatch
   if (!mounted) return null;
 
+  const isDark = resolvedTheme === "dark";
+
+  const toggleTheme = () => {
+    setTheme(isDark ? "light" : "dark");
+  };
+
   return (
     <button
       onClick={toggleTheme}
-      className="fixed bottom-8 right-8 z-50 px-4 py-3 bg-neutral-900/50 backdrop-blur-md hover:bg-neutral-800/50 border border-white/5 rounded-full shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.6)] transition-all duration-300 group"
+      className="fixed bottom-8 right-8 z-50 px-4 py-3 bg-neutral-900/50 dark:bg-neutral-900/50 light:bg-white/50 backdrop-blur-md hover:bg-neutral-800/50 border border-white/5 dark:border-white/5 light:border-black/5 rounded-full shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] hover:shadow-[0_8px_32px_0_rgba(0,0,0,0.6)] transition-all duration-300 group"
       aria-label="Toggle theme"
     >
       <div className="flex items-center gap-2">
