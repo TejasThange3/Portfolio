@@ -37,9 +37,9 @@ const Footer = () => {
             <span className="text-sm font-medium text-purple-300">Open to opportunities</span>
           </div>
           
-          <h2 className="text-4xl md:text-6xl font-bold mb-4 font-display">
+          <h2 className="text-4xl md:text-6xl font-bold mb-4 font-display pb-1 pr-1 leading-tight">
             <span className="text-white">Let's work </span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 italic">together</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 pb-1 pr-1">together</span>
           </h2>
           
           <p className="text-neutral-400 text-lg mb-8 max-w-lg mx-auto">

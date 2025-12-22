@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { gsap } from "gsap";
 import { Github, Linkedin, Twitter, Mail, ArrowUpRight, Sparkles } from "lucide-react";
 import { DATA } from "@/lib/data";
 import { ShinyButton } from "@/components/ui/shiny-button";
@@ -25,6 +24,24 @@ const Hero = () => {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  // Staggered text reveal animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.3 }
+    }
+  };
+
+  const wordVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { type: "spring", damping: 12, stiffness: 100 } 
+    }
+  };
+
   const fadeInUp = {
     hidden: { opacity: 0, y: 40 },
     visible: (i: number) => ({
@@ -37,6 +54,10 @@ const Hero = () => {
       },
     }),
   };
+
+  // Split intro text into words for stagger animation
+  const introWords = ["Hey", "there,", "I'm"];
+  const nameWords = DATA.profile.name.split(" ");
 
   return (
     <section 
@@ -85,41 +106,45 @@ const Hero = () => {
             </div>
           </motion.div>
 
-          {/* Waving hand + Greeting */}
+          {/* Greeting - Staggered word reveal */}
           <motion.div
-            custom={1}
+            variants={containerVariants}
             initial="hidden"
             animate="visible"
-            variants={fadeInUp}
-            className="flex items-center gap-3 mb-6"
+            className="flex items-center gap-2 mb-6"
           >
-            <span className="text-5xl md:text-6xl animate-wave">👋</span>
-            <span className="text-xl md:text-2xl text-neutral-400 font-medium font-display">
-              Hey there, I'm
-            </span>
+            {introWords.map((word, index) => (
+              <motion.span
+                key={index}
+                variants={wordVariants}
+                className="text-xl md:text-2xl text-neutral-400 font-medium font-display"
+              >
+                {word}
+              </motion.span>
+            ))}
           </motion.div>
 
-          {/* Name - Large and prominent like Eik.me */}
+          {/* Name - Staggered reveal with unified typography */}
           <motion.h1
-            custom={2}
+            variants={containerVariants}
             initial="hidden"
             animate="visible"
-            variants={fadeInUp}
-            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-6"
+            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-6 pb-2 pr-1 leading-tight"
           >
-            <span className="text-white font-display">{DATA.profile.name.split(" ")[0]} </span>
-            <span className="relative">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 italic font-light">
-                {DATA.profile.name.split(" ")[1]}
-              </span>
-              {/* Underline decoration */}
-              <motion.span 
-                className="absolute -bottom-2 left-0 h-1.5 bg-gradient-to-r from-red-500 via-pink-500 to-purple-500 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ delay: 0.8, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              />
-            </span>
+            {nameWords.map((word, index) => (
+              <motion.span
+                key={index}
+                variants={wordVariants}
+                className={`inline-block font-display ${
+                  index === 1 
+                    ? "text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 pb-1 pr-1" 
+                    : "text-white"
+                }`}
+              >
+                {word}
+                {index < nameWords.length - 1 && <span>&nbsp;</span>}
+              </motion.span>
+            ))}
           </motion.h1>
 
           {/* Title with highlighted keywords */}
@@ -200,27 +225,6 @@ const Hero = () => {
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-xs text-neutral-500 uppercase tracking-[0.3em] font-display">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-          className="w-6 h-10 border-2 border-white/20 rounded-full flex items-start justify-center p-2"
-        >
-          <motion.div 
-            className="w-1.5 h-1.5 bg-white/60 rounded-full"
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            transition={{ repeat: Infinity, duration: 1.5 }}
-          />
-        </motion.div>
-      </motion.div>
     </section>
   );
 };
