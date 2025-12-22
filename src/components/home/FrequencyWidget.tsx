@@ -210,12 +210,11 @@ const FrequencyWidget = () => {
                 whileTap={{ scale: 0.99 }}
                 className={`relative flex-1 rounded-2xl transition-all duration-300 overflow-hidden ${
                   isActive
-                    ? 'ring-2 ring-offset-2 ring-offset-neutral-900'
+                    ? freq.hz === 432 
+                      ? 'ring-2 ring-emerald-500/50 ring-offset-2 ring-offset-neutral-900'
+                      : 'ring-2 ring-violet-500/50 ring-offset-2 ring-offset-neutral-900'
                     : 'hover:bg-white/5'
                 }`}
-                style={{
-                  ringColor: isActive ? freq.glowColor : 'transparent',
-                }}
               >
                 {/* Button background */}
                 <div className={`absolute inset-0 transition-all duration-300 ${
