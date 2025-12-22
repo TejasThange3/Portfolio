@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { gsap } from "gsap";
 import { DATA } from "@/lib/data";
 
 interface PreloaderProps {
@@ -10,92 +11,148 @@ interface PreloaderProps {
 
 const Preloader = ({ onComplete }: PreloaderProps) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-      onComplete?.();
-    }, 2000);
+    // Animate progress bar
+    const progressInterval = setInterval(() => {
+      setProgress((prev) => {
+        if (prev >= 100) {
+          clearInterval(progressInterval);
+          return 100;
+        }
+        return prev + Math.random() * 15;
+      });
+    }, 100);
 
-    return () => clearTimeout(timer);
+    const timer = setTimeout(() => {
+      setProgress(100);
+      setTimeout(() => {
+        setIsLoading(false);
+        onComplete?.();
+      }, 500);
+    }, 2500);
+
+    return () => {
+      clearTimeout(timer);
+      clearInterval(progressInterval);
+    };
   }, [onComplete]);
 
   return (
     <AnimatePresence>
       {isLoading && (
         <motion.div
+          ref={containerRef}
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
+          exit={{ 
+            opacity: 0,
+            scale: 1.1,
+          }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="fixed inset-0 z-[9999] flex items-center justify-center bg-neutral-950"
         >
-          {/* Background gradient orbs */}
+          {/* Animated background grid */}
+          <div 
+            className="absolute inset-0 opacity-[0.02]"
+            style={{
+              backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+              backgroundSize: '50px 50px',
+            }}
+          />
+
+          {/* Animated gradient orbs */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-purple-500/10 rounded-full blur-[150px] animate-pulse" />
-            <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-blue-500/10 rounded-full blur-[150px] animate-pulse delay-500" />
+            <motion.div 
+              animate={{ 
+                x: [0, 50, 0],
+                y: [0, -30, 0],
+                scale: [1, 1.2, 1],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-500/20 rounded-full blur-[150px]" 
+            />
+            <motion.div 
+              animate={{ 
+                x: [0, -50, 0],
+                y: [0, 30, 0],
+                scale: [1.2, 1, 1.2],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-blue-500/20 rounded-full blur-[150px]" 
+            />
           </div>
 
           {/* Loading content */}
-          <div className="relative flex flex-col items-center gap-8">
-            {/* Animated logo/name */}
+          <div className="relative flex flex-col items-center gap-12">
+            {/* Animated logo */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.6 }}
+              transition={{ delay: 0.2, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
               className="relative"
             >
-              <h1 className="text-5xl md:text-7xl font-bold tracking-tight">
-                <span className="text-white">{DATA.profile.name.split(" ")[0]}</span>
+              {/* Glow behind text */}
+              <div className="absolute inset-0 blur-3xl bg-gradient-to-r from-purple-500/50 to-blue-500/50 opacity-50" />
+              
+              <h1 className="relative text-6xl md:text-8xl font-bold tracking-tighter font-display">
+                <motion.span 
+                  className="inline-block text-white"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  {DATA.profile.name.split(" ")[0]}
+                </motion.span>
+                <motion.span 
+                  className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 ml-3 italic"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  {DATA.profile.name.split(" ")[1]}
+                </motion.span>
               </h1>
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: "100%" }}
-                transition={{ delay: 0.6, duration: 0.8, ease: "easeInOut" }}
-                className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-full"
-              />
             </motion.div>
 
-            {/* Loading indicator */}
+            {/* Progress bar */}
             <motion.div
+              initial={{ opacity: 0, width: 0 }}
+              animate={{ opacity: 1, width: 300 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
+              className="relative"
+            >
+              <div className="w-[300px] h-1 bg-white/10 rounded-full overflow-hidden">
+                <motion.div
+                  ref={progressRef}
+                  className="h-full bg-gradient-to-r from-purple-500 via-pink-500 to-blue-500 rounded-full"
+                  style={{ width: `${Math.min(progress, 100)}%` }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
+              
+              {/* Progress percentage */}
+              <motion.p 
+                className="text-center mt-4 text-sm font-mono text-neutral-500"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+              >
+                {Math.min(Math.round(progress), 100)}%
+              </motion.p>
+            </motion.div>
+
+            {/* Loading text */}
+            <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.4 }}
-              className="flex items-center gap-2"
+              transition={{ delay: 0.9 }}
+              className="text-sm text-neutral-500 uppercase tracking-[0.3em]"
             >
-              <div className="flex gap-1">
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    animate={{
-                      scale: [1, 1.2, 1],
-                      opacity: [0.5, 1, 0.5],
-                    }}
-                    transition={{
-                      repeat: Infinity,
-                      duration: 1,
-                      delay: i * 0.2,
-                      ease: "easeInOut",
-                    }}
-                    className="w-2 h-2 rounded-full bg-white"
-                  />
-                ))}
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Noise texture overlay */}
-          <div className="absolute inset-0 pointer-events-none opacity-[0.03]">
-            <svg className="w-full h-full">
-              <filter id="preloaderNoise">
-                <feTurbulence
-                  type="fractalNoise"
-                  baseFrequency="0.8"
-                  numOctaves="4"
-                  stitchTiles="stitch"
-                />
-              </filter>
-              <rect width="100%" height="100%" filter="url(#preloaderNoise)" />
-            </svg>
+              Loading experience
+            </motion.p>
           </div>
         </motion.div>
       )}
