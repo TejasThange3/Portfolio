@@ -16,6 +16,7 @@ const config: Config = {
   				'sans-serif'
   			],
   			display: [
+  				'var(--font-oswald)',
   				'var(--font-space)',
   				'system-ui',
   				'sans-serif'
