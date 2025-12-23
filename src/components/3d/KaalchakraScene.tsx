@@ -129,9 +129,13 @@ function KaalchakraMandala({ scrollProgress = 0 }: { scrollProgress?: number }) 
       groupRef.current.rotation.x = Math.PI / 4 + scrollProgress * Math.PI * 0.5;
       groupRef.current.rotation.y = scrollProgress * Math.PI;
       
-      // Scale based on scroll
-      const scale = 1.5 - scrollProgress * 0.3;
+      // Scale based on scroll (get smaller as user scrolls)
+      const scale = 1.5 - scrollProgress * 0.5;
       groupRef.current.scale.setScalar(scale);
+      
+      // Move to the RIGHT as user scrolls (X-axis shift)
+      const targetX = scrollProgress * 5;
+      groupRef.current.position.x = THREE.MathUtils.lerp(groupRef.current.position.x, targetX, 0.1);
     }
   });
 

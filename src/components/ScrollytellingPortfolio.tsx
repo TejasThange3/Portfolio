@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Twitter, Mail, ArrowUpRight, ExternalLink, ChevronDown, MapPin } from "lucide-react";
+import { motion } from "framer-motion";
+import { Github, Linkedin, Twitter, Mail, ArrowUpRight, ExternalLink } from "lucide-react";
 import { DATA } from "@/lib/data";
 import { ShinyButton } from "@/components/ui/shiny-button";
 import { useLenis } from "lenis/react";
@@ -25,8 +25,8 @@ const KaalchakraScene = dynamic(() => import("@/components/3d/KaalchakraScene"),
   ),
 });
 
-// Typewriter with delete and loop - Akshay Shinde style
-const TypewriterLoop = ({ 
+// Typewriter with delete and loop - Akshay Shinde style (for title only)
+const TypewriterTitle = ({ 
   texts,
   className = "",
 }: { 
@@ -45,7 +45,7 @@ const TypewriterLoop = ({
       const pauseTimer = setTimeout(() => {
         setIsPaused(false);
         setIsDeleting(true);
-      }, 2000);
+      }, 2500);
       return () => clearTimeout(pauseTimer);
     }
 
@@ -58,14 +58,14 @@ const TypewriterLoop = ({
       
       const deleteTimer = setTimeout(() => {
         setDisplayedText(displayedText.slice(0, -1));
-      }, 30);
+      }, 40);
       return () => clearTimeout(deleteTimer);
     }
 
     if (displayedText.length < currentFullText.length) {
       const typeTimer = setTimeout(() => {
         setDisplayedText(currentFullText.slice(0, displayedText.length + 1));
-      }, 80);
+      }, 100);
       return () => clearTimeout(typeTimer);
     } else {
       setIsPaused(true);
@@ -150,7 +150,7 @@ const ProjectCard = ({ project, index }: { project: typeof DATA.projects[0]; ind
         <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-amber-400 transition-colors">
           {project.title}
         </h3>
-        <p className="text-neutral-400 text-sm leading-relaxed mb-4">
+        <p className="text-white/80 text-sm leading-relaxed mb-4">
           {project.tagline}
         </p>
         <div className="flex items-center gap-4">
@@ -167,7 +167,7 @@ const ProjectCard = ({ project, index }: { project: typeof DATA.projects[0]; ind
             href={project.repo}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-neutral-400 hover:text-white transition-colors"
+            className="inline-flex items-center gap-1.5 text-sm font-medium text-white/70 hover:text-white transition-colors"
           >
             <Github className="w-4 h-4" />
             Source
@@ -185,7 +185,7 @@ const SkillBadge = ({ skill, index }: { skill: string; index: number }) => (
     whileInView={{ opacity: 1, scale: 1 }}
     transition={{ duration: 0.4, delay: index * 0.05 }}
     viewport={{ once: true }}
-    className="px-4 py-2 bg-neutral-900/60 backdrop-blur-sm border border-white/5 rounded-full text-sm font-medium text-neutral-300 hover:text-amber-400 hover:border-amber-500/30 transition-all duration-300 cursor-default"
+    className="px-4 py-2 bg-neutral-900/60 backdrop-blur-sm border border-white/5 rounded-full text-sm font-medium text-white/90 hover:text-amber-400 hover:border-amber-500/30 transition-all duration-300 cursor-default"
   >
     {skill}
   </motion.div>
@@ -260,46 +260,45 @@ export default function ScrollytellingPortfolio() {
       {/* Hero Section */}
       <Section id="hero" className="scroll-section">
         <div className="section-content relative z-10 max-w-6xl mx-auto px-6 text-center">
-          {/* Greeting */}
+          {/* Greeting - WHITE text */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-neutral-400 mb-4"
+            className="text-lg md:text-xl text-white mb-4"
           >
             Hey there, I'm
           </motion.p>
 
-          {/* Name with Typewriter */}
+          {/* Static Name - ALWAYS visible, WHITE, large */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6"
+            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-4 text-white leading-[1.15] pb-2"
           >
-            <TypewriterLoop
-              texts={[DATA.profile.name, DATA.profile.title]}
-              className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent"
-            />
+            {DATA.profile.name}
           </motion.h1>
 
-          {/* Location */}
+          {/* Dynamic Title - Typewriter, GOLD, smaller */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex items-center justify-center gap-2 text-neutral-500 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-8 h-12"
           >
-            <MapPin className="w-4 h-4" />
-            <span>{DATA.profile.location}</span>
+            <TypewriterTitle
+              texts={["AI & ML Engineer", "Full Stack Developer", "Problem Solver"]}
+              className="bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent"
+            />
           </motion.div>
 
-          {/* Bio */}
+          {/* Bio - WHITE text */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1 }}
-            className="text-lg md:text-xl text-neutral-400 max-w-2xl mx-auto mb-10 leading-relaxed"
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed"
           >
             {DATA.profile.bio}
           </motion.p>
@@ -308,7 +307,7 @@ export default function ScrollytellingPortfolio() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 1.2 }}
+            transition={{ duration: 0.6, delay: 1 }}
             className="flex flex-wrap items-center justify-center gap-4 mb-12"
           >
             <ShinyButton 
@@ -330,7 +329,7 @@ export default function ScrollytellingPortfolio() {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.4 }}
+            transition={{ duration: 0.6, delay: 1.2 }}
             className="flex items-center justify-center gap-4"
           >
             {[
@@ -346,22 +345,10 @@ export default function ScrollytellingPortfolio() {
                 className="p-3 rounded-full bg-white/5 border border-white/10 hover:bg-amber-500/20 hover:border-amber-500/50 hover:scale-110 transition-all duration-300"
                 aria-label={social.label}
               >
-                <social.icon className="w-5 h-5 text-neutral-400 hover:text-amber-400" />
+                <social.icon className="w-5 h-5 text-white/70 hover:text-amber-400 transition-colors" />
               </a>
             ))}
           </motion.div>
-
-          {/* Scroll Indicator */}
-          <motion.button
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.6 }}
-            onClick={() => scrollToSection("about")}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-neutral-500 hover:text-amber-400 transition-colors cursor-pointer"
-          >
-            <span className="text-xs uppercase tracking-widest">Scroll</span>
-            <ChevronDown className="w-5 h-5 animate-bounce" />
-          </motion.button>
         </div>
       </Section>
 
@@ -392,7 +379,7 @@ export default function ScrollytellingPortfolio() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.2 }}
-                className="space-y-4 text-neutral-400 leading-relaxed"
+                className="space-y-4 text-white/80 leading-relaxed"
               >
                 <p>
                   I'm a passionate AI & ML Engineer based in {DATA.profile.location}, focused on building intelligent systems that solve real-world problems. With expertise spanning machine learning, deep learning, and modern web technologies, I create solutions that are both powerful and accessible.
@@ -439,7 +426,7 @@ export default function ScrollytellingPortfolio() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-neutral-400 text-center max-w-2xl mx-auto mb-12"
+            className="text-white/80 text-center max-w-2xl mx-auto mb-12"
           >
             A selection of projects showcasing my expertise in AI, machine learning, and full-stack development.
           </motion.p>
@@ -475,7 +462,7 @@ export default function ScrollytellingPortfolio() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-neutral-400 max-w-xl mx-auto mb-10 leading-relaxed"
+            className="text-white/80 max-w-xl mx-auto mb-10 leading-relaxed"
           >
             I'm currently open to new opportunities and collaborations. Whether you have a project in mind or just want to connect, feel free to reach out!
           </motion.p>

@@ -42,7 +42,7 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-neutral-950 text-white overflow-x-hidden`}>
+        <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-neutral-950 dark:bg-neutral-950 text-neutral-900 dark:text-white overflow-x-hidden transition-colors duration-300`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
