@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import "@/styles/globals.css";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import { ViewTransitions } from "next-view-transitions";
@@ -44,7 +42,7 @@ export default function RootLayout({
   return (
     <ViewTransitions>
       <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-neutral-950 text-white`}>
+        <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased bg-neutral-950 text-white overflow-x-hidden`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -52,11 +50,9 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <SmoothScrollProvider>
-              <Header />
               <main className="min-h-screen w-full">
                 {children}
               </main>
-              <Footer />
             </SmoothScrollProvider>
           </ThemeProvider>
         </body>

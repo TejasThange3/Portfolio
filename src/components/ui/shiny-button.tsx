@@ -38,16 +38,16 @@ export function ShinyButton({
       onClick={handleClick}
       className={cn(
         "group relative rounded-full px-6 py-3 font-medium backdrop-blur-xl transition-all duration-300 ease-out",
-        "bg-gradient-to-r from-purple-500/10 to-blue-500/10",
-        "hover:from-purple-500/20 hover:to-blue-500/20",
-        "hover:shadow-[0_0_30px_rgba(139,92,246,0.3)]",
-        "border border-white/10 hover:border-white/20",
+        "bg-gradient-to-r from-amber-500/10 to-yellow-500/10",
+        "hover:from-amber-500/20 hover:to-yellow-500/20",
+        "hover:shadow-[0_0_30px_rgba(245,158,11,0.3)]",
+        "border border-amber-500/20 hover:border-amber-500/40",
         className
       )}
     >
       {/* Shimmer effect */}
       <div className="absolute inset-0 rounded-full overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-500/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
       </div>
       
       <span className="relative flex items-center gap-2 text-white font-medium">
