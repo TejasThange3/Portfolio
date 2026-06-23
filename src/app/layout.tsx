@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Space_Grotesk, Oswald } from "next/font/google";
 import "@/styles/globals.css";
+import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import SmoothScrollProvider from "@/components/providers/SmoothScrollProvider";
 import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({ 
@@ -47,8 +48,8 @@ export default function RootLayout({
 }>) {
   return (
     <ViewTransitions>
-      <html lang="en" suppressHydrationWarning>
-        <body className={`${inter.variable} ${spaceGrotesk.variable} ${oswald.variable} font-sans antialiased bg-neutral-950 dark:bg-neutral-950 text-neutral-900 dark:text-white overflow-x-hidden transition-colors duration-300`}>
+      <html lang="en" className="dark" suppressHydrationWarning>
+        <body className={`${inter.variable} ${spaceGrotesk.variable} ${oswald.variable} font-sans antialiased overflow-x-hidden transition-colors duration-300`}>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
@@ -56,6 +57,7 @@ export default function RootLayout({
             disableTransitionOnChange
           >
             <SmoothScrollProvider>
+              <Navbar />
               <main className="min-h-screen w-full">
                 {children}
               </main>

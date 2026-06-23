@@ -1,29 +1,34 @@
 "use client";
 
-import { ReactLenis } from "lenis/react";
-import { ReactNode } from "react";
+import { ReactLenis } from "@studio-freight/react-lenis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useEffect } from "react";
 
-interface SmoothScrollProviderProps {
-  children: ReactNode;
+gsap.registerPlugin(ScrollTrigger);
+
+interface Props {
+  children: React.ReactNode;
 }
 
-// Premium easing function - exponential decay for "heavy" feel
-const premiumEasing = (t: number): number => Math.min(1, 1.001 - Math.pow(2, -10 * t));
+export default function SmoothScrollProvider({ children }: Props) {
+  useEffect(() => {
+    // Sync GSAP ScrollTrigger with Lenis
+    ScrollTrigger.refresh();
+  }, []);
 
-export function SmoothScrollProvider({ children }: SmoothScrollProviderProps) {
   return (
     <ReactLenis
       root
       options={{
-        lerp: 0.08,           // Lower = smoother, heavier feel
-        duration: 1.4,        // Longer duration for cinematic scroll
+        lerp: 0.08,
+        duration: 1.4,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        wheelMultiplier: 0.8, // Slower wheel for more control
-        touchMultiplier: 1.5, // Better touch response on mobile
-        easing: premiumEasing,
       }}
     >
-      {children}
+      {/* React 19 type compat with @studio-freight/react-lenis peer types */}
+      {children as never}
     </ReactLenis>
   );
 }
